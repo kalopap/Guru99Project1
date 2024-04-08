@@ -19,7 +19,7 @@ public class LoginPage extends BaseClass{
 	String reset;
 
 	public LoginPage() {
-		super();
+		//super();
 		try {
 			prop = new Properties();
 			FileInputStream ip = new FileInputStream(System.getProperty("user.dir")+"/src/main/java/com/kalopap/guru99/Locators/Login.properties");
@@ -38,6 +38,7 @@ public class LoginPage extends BaseClass{
 		password = prop.getProperty("pwdByName"); 
 		submit = prop.getProperty("submitBtnName");
 		reset = prop.getProperty("resetBtnName");
+		System.out.println("Login page web elements loaded...");
 	}
 	
 	public void enterUsernameAndPwd(String uname,String pwd) {
@@ -50,4 +51,6 @@ public class LoginPage extends BaseClass{
 		clickOnElement(By.name(submit));
 	}
 	
+
+
 }

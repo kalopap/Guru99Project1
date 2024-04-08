@@ -22,7 +22,7 @@ public class BaseClass {
 	public static Properties prop;
 	
 	public BaseClass() {
-		
+		System.out.println("Initializing Base class...");
 		//constructor to load default configurations
 		try {
 			prop = new Properties();
@@ -49,7 +49,7 @@ public class BaseClass {
 		
 		driver.manage().window().maximize();
 		driver.get(prop.getProperty("url"));
-		
+		System.out.println("Configuration settings Loaded...");
 	}
 	
 	public void enterText(By by, String text) {
@@ -62,6 +62,19 @@ public class BaseClass {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions.elementToBeClickable(by));
 		driver.findElement(by).click();
+	}
+	
+	public String getTitle() {
+		return driver.getTitle();
+	}
+
+	public String getAlertMessage() {
+		return driver.switchTo().alert().getText();
+		
+	}
+	
+	public void closeAlertWindow() {
+		driver.switchTo().alert().accept();
 	}
 
 
