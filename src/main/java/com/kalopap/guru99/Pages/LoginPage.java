@@ -1,39 +1,29 @@
 package com.kalopap.guru99.Pages;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
 
 import com.kalopap.guru99.Utilities.BaseClass;
+import com.kalopap.guru99.Utilities.Common;
 
 public class LoginPage extends BaseClass{
-	
-	//BaseClass base = new BaseClass();
+		
 	public Properties prop;
+	Common data = new Common();
+	
 	String userName; 
 	String password;
 	String submit;
 	String reset;
 
-	public LoginPage() {
-		//super();
-		try {
-			prop = new Properties();
-			FileInputStream ip = new FileInputStream(System.getProperty("user.dir")+"/src/main/java/com/kalopap/guru99/Locators/Login.properties");
-			prop.load(ip);
-		}catch(FileNotFoundException fe) {
-			fe.printStackTrace();
-		}catch(IOException ie) {
-			ie.printStackTrace();
-		}
-		
-		initializeElements();
+	public LoginPage(String browserName,String url) {
+		launchBrowser(browserName, url);
+		prop = data.loadValuesFromPropertiesFile("Locators/Login.properties");
+		initializeWebElements();
 	}
 	
-	public void initializeElements() {
+	public void initializeWebElements() {
 		userName = prop.getProperty("unameByName");
 		password = prop.getProperty("pwdByName"); 
 		submit = prop.getProperty("submitBtnName");
@@ -51,6 +41,9 @@ public class LoginPage extends BaseClass{
 		clickOnElement(By.name(submit));
 	}
 	
+	public void just() {
+		data.readDataFromExcel("Resources/TestData.xlsx", "Login", "Password");
+	}
 
 
 }

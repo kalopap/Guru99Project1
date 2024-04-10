@@ -8,39 +8,30 @@ import java.util.Properties;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
 
 /* This class will contain all the reusable components */
 
 public class BaseClass {
 	
-	public static WebDriver driver;
-	public static Properties prop;
+	public static WebDriver driver;	
+	
 	
 	public BaseClass() {
-		System.out.println("Initializing Base class...");
-		//constructor to load default configurations
-		try {
-			prop = new Properties();
-			FileInputStream ip = new FileInputStream(System.getProperty("user.dir")+"/src/main/java/com/kalopap/guru99/Resources/Config.properties");
-			prop.load(ip);
-		}catch(FileNotFoundException fe) {
-			fe.printStackTrace();
-		}catch(IOException ie) {
-			ie.printStackTrace();
-		}
-		this.initialize();
+		System.out.println("Initializing base constructor...");
 		
 	}
 	
-	
-	public void initialize() {
-		
-		String browserName = prop.getProperty("browser");
+	public void launchBrowser(String browserName,String url) {
 		
 		if(browserName.equals("Firefox")) {
 			driver = new FirefoxDriver();
@@ -48,9 +39,10 @@ public class BaseClass {
 		}
 		
 		driver.manage().window().maximize();
-		driver.get(prop.getProperty("url"));
+		driver.get(url); 
 		System.out.println("Configuration settings Loaded...");
 	}
+	
 	
 	public void enterText(By by, String text) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -76,7 +68,13 @@ public class BaseClass {
 	public void closeAlertWindow() {
 		driver.switchTo().alert().accept();
 	}
-
+	
+	public WebElement getValue(By by) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+		return driver.findElement(by);
+	}
+	
 
 	@AfterTest
 	public void teardown() {
