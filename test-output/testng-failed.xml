@@ -5,7 +5,7 @@
     <classes>
       <class name="com.kalopap.guru99.Tests.LoginTest">
         <methods>
-          <include name="verifyLoginWithValidCred"/>
+          <include name="justTest"/>
         </methods>
       </class> <!-- com.kalopap.guru99.Tests.LoginTest -->
     </classes>
