@@ -7,11 +7,15 @@
     <classes>
       <class name="com.kalopap.guru99.Tests.LoginTest">
         <methods>
-          <include name="verifyLoginWithInvalidCred"/>
           <include name="loadValues"/>
-          <include name="verifyLoginWithValidCred"/>
+          <include name="verifyLogin" invocation-numbers="0 1 2"/>
         </methods>
       </class> <!-- com.kalopap.guru99.Tests.LoginTest -->
+      <class name="com.kalopap.guru99.Tests.ManagerHomeTest">
+        <methods>
+          <include name="verifyManagerId"/>
+        </methods>
+      </class> <!-- com.kalopap.guru99.Tests.ManagerHomeTest -->
     </classes>
   </test> <!-- Banking Demo Tests(failed) -->
 </suite> <!-- Failed suite [Guru99 Test Suite] -->

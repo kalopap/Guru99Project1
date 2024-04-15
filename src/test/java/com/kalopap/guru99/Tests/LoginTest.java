@@ -3,6 +3,7 @@ package com.kalopap.guru99.Tests;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -15,8 +16,8 @@ public class LoginTest {
 	String urlName;
 	String browser;
 
-	//@Parameters({"URL","browser"})
-	//@BeforeTest
+	@Parameters({"URL","browser"})
+	@BeforeTest
 	public void loadValues(String url,String browserName) {
 		System.out.println("Initializing Global configurations...");
 		urlName = url;		
@@ -24,38 +25,36 @@ public class LoginTest {
 		
 	}
 	
-	//@BeforeTest
-	public void login(String username, String password) {
+	@DataProvider
+	public Object[][] getData() {
+		//3 invalid scenarios with username/pwd combinations
+		//1 valid scenario with correct username and pwd combination
+		//so we need 4 rows of (2 cols) username/pwd combinations
+		Object[][] data = new Object[4][3];
+		//username                 //password                 //scenario type
+		data[0][0] = "mngr564548"; data[0][1] = "InvalidPwd"; data[0][2] = "Error";
+		data[1][0] = "invalidUid"; data[1][1] = "pupEgaj";    data[1][2] = "Error";
+		data[2][0] = "invalidUid"; data[2][1] = "InvalidPwd"; data[2][2] = "Error";
+		data[3][0] = "mngr564548"; data[3][1] = "pupEgaj";    data[3][2] = "Valid";
+		
+		return data;
+	}
+	
+	
+	@Test(dataProvider = "getData")
+	public void verifyLogin(String username, String password, String scenario) {
+		
+					
 		loginPage = new LoginPage(browser,urlName);
 		loginPage.enterUsernameAndPwd(username, password);
 		loginPage.clickOnSubmitBtn();
-	}
-	
-	@Test
-	public void justTest() {
-		loginPage = new LoginPage("Firefox","https://www.google.com/");
-		loginPage.just();
+		if(scenario == "Error") {
+			Assert.assertEquals(loginPage.getAlertMessage(), "User or Password is not valid");
+			loginPage.closeAlertWindow();
+			loginPage.teardown();
 		
-	}
-	//@Test
-	public void verifyLoginWithInvalidCred() {
-		
-		login("some", "text");
-		Assert.assertEquals(loginPage.getAlertMessage(), "User or Password is not valid");
-		loginPage.closeAlertWindow();
-		loginPage.teardown();
-		
-	}
-	
-	//@Test
-	public void verifyLoginWithValidCred() {
-		
-		login("mngr564548", "pupEgaj");				 
+		}
 	
 	}
 	
-	//@AfterTest
-	public void endTest() {
-		loginPage.teardown();
-	}
 }
